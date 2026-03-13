@@ -1,0 +1,5 @@
+Käytetty aika: ~4 h
+
+Tällä viikolla katsoin aihe-ehdotuksia ja valitsin aiheen, ja sen jälkeen tutustuin tarkemmin valitsemaani aiheeseen eli DPLL:ään ja SAT-solvereihin ylipäätään. Lisäksi kirjoitin määrittelydokumentin, loin projektille repositorion ja alustin Poetry-ympäristön. Itse ohjelman kirjoittamista en ole vielä aloittanut, mutta se on seuraava asia, jonka aion tehdä.
+
+Määrittelydokumentin kirjoittaminen oli hieman hankalaa, koska en oikein tiennyt, missä muodossa ja kuinka tarkasti kaikki tiedot pitäisi sinne kirjoittaa. Mietin myös, voiko koodin kommentit ja muuttujien nimet sekä commit-viestit kirjoittaa englanniksi, jos nämä dokumentit ja viikkoraportit kirjoittaa suomeksi, vai pitäisikö aivan kaikki kirjoittaa samalla kielellä. Päädyin nyt kuitenkin käyttämään kahta eri kieltä, koska se tuntui järkevimmältä vaihtoehdolta.
