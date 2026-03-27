@@ -1,80 +1,60 @@
-from sys import argv
+class Solver:
+    def __init__(self, f, n_vars):
+        self.n_vars = n_vars
+        self.watched_in = {x: [] for x in range(-n_vars, n_vars+1)}
+        for clause in f:
+            if len(clause) == 1:
+                continue
+            for i in [0, 1]:
+                self.watched_in[clause[i]].append(clause)
 
-with open(argv[1], 'r') as file:
-    input_ = file.read()
+    def solve(self, t=[]):
+        truth = t
 
-input_ = input_.split()
+        # unit propagation
+        while len(truth) > 0:
+            # new array for unit clause literals
+            truth_new = []
 
-n_vars = int(input_[2])
+            t_set = set(t)
 
-f = [[]]
-watched_in = {x: [] for x in range(-n_vars, n_vars+1)}
+            # update watched literals and find unit clauses
+            for literal in truth:
+                for clause in self.watched_in[-literal]:
+                    non_false_literals = 0
+                    for literal_ in clause:
+                        if -literal_ in t_set:
+                            continue
+                        if clause not in self.watched_in[literal_]:
+                            self.watched_in[literal_].append(clause)
+                            self.watched_in[-literal].remove(clause)
+                            non_false_literals = 2  # at least 2 must be non-false
+                            break
+                        non_false_literals += 1
 
-for i in range(4, len(input_)-1): # the last number is always 0
-    literal = int(input_[i])
-    if literal == 0:
-        f.append([])
-    else:
-        f[-1].append(literal)
+                    if non_false_literals == 0:
+                        return False
 
-for clause in f:
-    if len(clause) == 1:
-        continue
-    for i in [0, 1]:
-        watched_in[clause[i]].append(clause)
+                    if non_false_literals == 1:
+                        truth_new.append(clause[0])
 
+            for literal in truth_new:
+                t.append(literal)
 
-def solve(f, t=[]):
-    truth = t
+            truth = truth_new
 
-    # unit propagation
-    while len(truth) > 0:
-        # new array for unit clause literals
-        truth_new = []
+        if len(t) == self.n_vars:
+            return True
 
-        t_set = set(t)
+        t_vars = set(abs(x) for x in t)
 
-        # update watched literals and find unit clauses
-        for literal in truth:
-            for clause in watched_in[-literal]:
-                non_false_literals = 0
-                for literal_ in clause:
-                    if -literal_ in t_set:
-                        continue
-                    if clause not in watched_in[literal_]:
-                        watched_in[literal_].append(clause)
-                        watched_in[-literal].remove(clause)
-                        non_false_literals = 2  # at least 2 must be non-false
-                        break
-                    non_false_literals += 1
+        # choose an unassigned variable
+        for x in range(1, self.n_vars+1):
+            if x not in t_vars:
+                new = x
+                break
 
-                if non_false_literals == 0:
-                    return False
+        if self.solve(t+[new]) or self.solve(t+[-new]):
+            return True
 
-                if non_false_literals == 1:
-                    truth_new.append(clause[0])
-
-        for literal in truth_new:
-            t.append(literal)
-
-        truth = truth_new
-
-    if len(t) == n_vars:
-        return True
-
-    t_vars = set(abs(x) for x in t)
-
-    # choose an unassigned variable
-    for x in range(1, n_vars+1):
-        if x not in t_vars:
-            new = x
-            break
-
-    if solve(f, t+[new]) or solve(f, t+[-new]):
-        return True
-
-    return False
-
-sat = solve(f)
-
-print(sat)
+        return False
