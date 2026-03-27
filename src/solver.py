@@ -24,8 +24,6 @@ for clause in f:
         watched_in[clause[i]].append(clause)
 
 
-undefined = set(range(1, n_vars+1))
-
 def solve(f, t=[]):
     truth = t
 
@@ -64,15 +62,16 @@ def solve(f, t=[]):
     if len(t) == n_vars:
         return True
 
-    undefined.difference_update(set(abs(x) for x in t))
+    t_vars = set(abs(x) for x in t)
 
-    new = list(undefined)[0] # choose an undefined variable
-    undefined.remove(new)
+    # choose an unassigned variable
+    for x in range(1, n_vars+1):
+        if x not in t_vars:
+            new = x
+            break
 
     if solve(f, t+[new]) or solve(f, t+[-new]):
         return True
-
-    undefined.add(new)
 
     return False
 
