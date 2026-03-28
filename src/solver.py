@@ -44,7 +44,7 @@ class Solver:
             truth = truth_new
 
         if len(t) == self.n_vars:
-            return True
+            return t
 
         t_vars = set(abs(x) for x in t)
 
@@ -54,7 +54,9 @@ class Solver:
                 new = x
                 break
 
-        if self.solve(t+[new]) or self.solve(t+[-new]):
-            return True
+        for x in [new, -new]:
+            next_ = self.solve(t+[x])
+            if next_:
+                return next_
 
-        return False
+        return None

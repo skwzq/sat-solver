@@ -20,6 +20,10 @@ for i in range(4, len(input_)-1): # the last number is always 0
         f[-1].append(literal)
 
 
-sat = Solver(f, n_vars).solve()
+solution = Solver(f, n_vars).solve()
 
-print(sat)
+if solution:
+    for x in solution:
+        print(x + ' ')
+else:
+    print('unsatisfiable')
