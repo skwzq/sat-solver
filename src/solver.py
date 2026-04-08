@@ -3,60 +3,50 @@ class Solver:
         self.n_vars = n_vars
         self.watched_in = {x: [] for x in range(-n_vars, n_vars+1)}
         for clause in f:
-            if len(clause) == 1:
-                continue
-            for i in [0, 1]:
+            for i in range(min(2, len(clause))):
                 self.watched_in[clause[i]].append(clause)
 
     def solve(self, t=[]):
-        truth = t
+        for val in t:
+            for clause in self.watched_in[-val]:
+                non_false_watched = 0
+                non_false_unwatched = 0
 
-        # unit propagation
-        while len(truth) > 0:
-            # new array for unit clause literals
-            truth_new = []
+                for literal in clause:
+                    if -literal in t:
+                        continue
+                    if clause not in self.watched_in[literal]:
+                        # found a new literal to watch
+                        non_false_unwatched = literal
+                        break
+                    non_false_watched = literal  # found a non-false watched literal
 
-            t_set = set(t)
-
-            # update watched literals and find unit clauses
-            for literal in truth:
-                for clause in self.watched_in[-literal]:
-                    non_false_literals = 0
-                    for literal_ in clause:
-                        if -literal_ in t_set:
-                            continue
-                        if clause not in self.watched_in[literal_]:
-                            self.watched_in[literal_].append(clause)
-                            self.watched_in[-literal].remove(clause)
-                            non_false_literals = 2  # at least 2 must be non-false
-                            break
-                        non_false_literals += 1
-
-                    if non_false_literals == 0:
-                        return False
-
-                    if non_false_literals == 1:
-                        truth_new.append(clause[0])
-
-            for literal in truth_new:
-                t.append(literal)
-
-            truth = truth_new
+                if non_false_unwatched != 0:
+                    # change watched literal
+                    self.watched_in[non_false_unwatched].append(clause)
+                    self.watched_in[-val].remove(clause)
+                elif non_false_watched != 0:
+                    # unit clause, add literal to truth assignment if it isn't there already
+                    if non_false_watched not in t:
+                        t.append(non_false_watched)
+                else:
+                    # every literal in clause is false
+                    return None
 
         if len(t) == self.n_vars:
+            # all variables have truth values
             return t
 
-        t_vars = set(abs(x) for x in t)
-
-        # choose an unassigned variable
-        for x in range(1, self.n_vars+1):
-            if x not in t_vars:
-                new = x
+        # choose the variable to assign next
+        assigned_vars = set(abs(x) for x in t)
+        for i in range(1, self.n_vars+1):
+            if i not in assigned_vars:
+                new = i
                 break
 
         for x in [new, -new]:
-            next_ = self.solve(t+[x])
-            if next_:
-                return next_
+            result = self.solve(t+[x])
+            if result:
+                return result
 
         return None
