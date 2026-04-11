@@ -47,6 +47,6 @@ class Solver:
         for x in [new, -new]:
             result = self.solve(t+[x])
             if result:
-                return result
+                return sorted(result, key=lambda z: abs(z))
 
         return None
