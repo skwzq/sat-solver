@@ -35,7 +35,7 @@ class Solver:
 
         if len(t) == self.n_vars:
             # all variables have truth values
-            return t
+            return sorted(t, key=lambda z: abs(z))
 
         # choose the variable to assign next
         assigned_vars = set(abs(x) for x in t)
@@ -48,6 +48,6 @@ class Solver:
         for x in [new, -new]:
             result = self.solve(t+[x])
             if result:
-                return sorted(result, key=lambda z: abs(z))
+                return result
 
         return None
