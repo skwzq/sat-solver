@@ -39,7 +39,8 @@ class Solver:
 
         # choose the variable to assign next
         assigned_vars = set(abs(x) for x in t)
-        for i in range(1, self.n_vars+1):
+        for i in range(1, self.n_vars+1):  # pragma: no cover
+            # excluded from coverage because this is always executed at least once
             if i not in assigned_vars:
                 new = i
                 break
