@@ -26,7 +26,6 @@ for j in range(i+1, len(input_)):
 solution = Solver(f, n_vars).solve()
 
 if solution:
-    for x in solution:
-        print(str(x) + ' ')
+    print(' '.join(str(x) for x in solution))
 else:
     print('unsatisfiable')
