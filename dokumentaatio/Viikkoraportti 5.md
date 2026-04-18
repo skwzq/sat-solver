@@ -1,0 +1,3 @@
+Käytetty aika: 10 h
+
+Yritin lisätä algoritmiin lähteenä käyttämässäni Aalto Yliopiston kurssimateriaalissa kuvatun tyyppistä klausuulin oppimista ja backjumpingia, mutta tajusin vähän liian myöhään, että se ei oikein toimi 2-watched-literal-tyylisen yksikköpropagaation kanssa. Vaikka koodissa ei siis juuri näy muutoksia, niin kirjoitin kyllä paljon koodia, en vain saanut sitä toimimaan. Varmaan seuraavaksi olisi vuorossa sitten jonkin erilaisen lähestymistavan keksiminen sekä testien ja dokumentaation saattaminen hyväksyttävään kuntoon.

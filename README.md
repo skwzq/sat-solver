@@ -13,3 +13,5 @@
 [Viikkoraportti 3](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Viikkoraportti%203.md)
 
 [Viikkoraportti 4](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Viikkoraportti%204.md)
+
+[Viikkoraportti 5](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Viikkoraportti%205.md)
