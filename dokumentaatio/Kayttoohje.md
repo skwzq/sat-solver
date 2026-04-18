@@ -1,0 +1,3 @@
+Ohjelman voi suorittaa komennolla `poetry run python [polku]/src/main.py [tiedosto]`, missä *polku* on polku projektin juurihakemistoon ja *tiedosto* on DIMACS-muotoinen tiedosto, joka sisältää konjunktiivisessa normaalimuodossa olevan propositiologiikan kaavan.
+
+Ohjelma tulostaa kaavan toteuttavan totuusjakauman, jos kaava on toteutuva, tai sanan 'unsatisfiable', jos kaava on toteutumaton. Totuusjakauma tulostetaan välilyönneillä erotettuna listana muuttujien indeksejä *x* muodossa *x* tai -*x*, missä *x* tarkoittaa, että muuttujan arvo on tosi, ja -*x* tarkoittaa, että muuttujan arvo on epätosi.

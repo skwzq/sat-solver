@@ -3,6 +3,8 @@
 
 [Testausdokumentti](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Testausdokumentti.md)
 
+[Käyttöohje](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Kayttoohje.md)
+
 ### Viikkoraportit
 [Viikkoraportti 1](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Viikkoraportti%201.md)
 
