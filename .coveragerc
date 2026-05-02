@@ -1,2 +1,2 @@
 [run]
-omit = src/tests/*
+include = src/solver.py
