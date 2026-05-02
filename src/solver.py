@@ -96,8 +96,10 @@ class Solver:
             non_false_watched = None
             non_false_unwatched = None
 
+            trail_literals_set = set(self.__trail_literals)
+
             for literal in clause:
-                if -literal in self.__trail_literals:
+                if -literal in trail_literals_set:
                     # false literal
                     continue
                 if clause not in self.__watched_in[literal]:
@@ -114,7 +116,7 @@ class Solver:
             elif non_false_watched:
                 # unit clause; add true literal to trail (if it isn't there already) with the
                 # clause that implies it must be true
-                if non_false_watched not in self.__trail_literals:
+                if non_false_watched not in trail_literals_set:
                     self.__trail_literals.append(non_false_watched)
                     self.__trail_reason.append(clause)
             else:
