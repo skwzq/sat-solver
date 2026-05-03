@@ -38,7 +38,7 @@ class Solver:
             # choose the variable to assign next and add it to trail
             assigned_vars = set(abs(x) for x in self.__trail_literals)
             for i in range(1, self.__n_vars+1):  # pragma: no cover
-                # excluded from coverage because this is always executed at least once
+                # excluded from coverage because self.__n_vars can't be 0 here
                 if i not in assigned_vars:
                     self.__trail_literals.append(i)
                     self.__trail_reason.append(None)
@@ -150,7 +150,8 @@ class Solver:
 
         if len(learned_clause) == 1:
             # backjump to before the first decision literal
-            for i, reason in enumerate(self.__trail_reason):
+            for i, reason in enumerate(self.__trail_reason):  # pragma: no cover
+                # self.__trail_reason is never empty here
                 if not reason:
                     self.__trail_literals = self.__trail_literals[:i]
                     self.__trail_reason = self.__trail_reason[:i]
