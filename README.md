@@ -1,11 +1,14 @@
-## Harjoitustyön dokumentaatio
+# sat-solver
+Algoritmit ja tekoäly -harjoitustyökurssin harjoitustyö
+
+## Dokumentaatio
+[Käyttöohje](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Kayttoohje.md)
+
 [Määrittelydokumentti](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Maarittelydokumentti.md)
 
 [Testausdokumentti](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Testausdokumentti.md)
 
 [Toteutusdokumentti](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Toteutusdokumentti.md)
-
-[Käyttöohje](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Kayttoohje.md)
 
 ### Viikkoraportit
 [Viikkoraportti 1](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Viikkoraportti%201.md)
@@ -19,3 +22,5 @@
 [Viikkoraportti 5](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Viikkoraportti%205.md)
 
 [Viikkoraportti 6](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Viikkoraportti%206.md)
+
+[Viikkoraportti 7](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Viikkoraportti%207.md)
