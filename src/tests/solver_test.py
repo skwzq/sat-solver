@@ -20,6 +20,10 @@ class TestSolver(unittest.TestCase):
         solver = Solver(f=[[-1, -2, 3, 4], [2, 3], [1, -2], [1, -3], [-3, 4], [-2, -4]], n_vars=4)
         self.assertEqual(solver.solve(), [1, -2, 3, 4])
 
+    def test_solve_returns_correct_truth_assignment_multiple_backjumps(self):
+        solver = Solver(f=[[-1, 2], [-2, 3], [-2, 4], [-3, -4], [-3, 4], [-4, 5], [-4, 6], [-5, -6], [6]], n_vars=6)
+        self.assertEqual(solver.solve(), [-1, -2, -3, -4, -5, 6])
+
     # the files used in the following tests are from https://github.com/arminbiere/cadical/tree/master/test/cnf
 
     def test_solve_returns_correct_truth_assignment_sqrt2809(self):
