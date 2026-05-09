@@ -144,9 +144,16 @@ class Solver:
             # unsatisfiable
             return False
 
+        duplicate = False
+        for literal in learned_clause:
+            if learned_clause in self.__watched_in[literal]:
+                duplicate = True
+                break
+
         # add learned clause to formula by adding it to watched clauses
-        for i in range(min(2, len(learned_clause))):
-            self.__watched_in[learned_clause[i]].append(learned_clause)
+        if not duplicate:
+            for i in range(min(2, len(learned_clause))):
+                self.__watched_in[learned_clause[i]].append(learned_clause)
 
         if len(learned_clause) == 1:
             # backjump to before the first decision literal
@@ -194,8 +201,13 @@ class Solver:
         # reason_literals: Highest decision level literals which directly or indirectly lead to the
         #   clause becoming false. Literals are removed when they're encountered in the trail.
         highest_decision_level_literals = set(self.__trail_literals[decision_literal_index[-1]:])
-        reason_literals = set((-x for x in falsified_clause if -x in highest_decision_level_literals))
+        reason_literals = set()
         learned_clause = set()
+        for literal in falsified_clause:
+            if -literal in highest_decision_level_literals:
+                reason_literals.add(-literal)
+            else:
+                learned_clause.add(literal)
 
         # find the last highest-level literal such that all the literals after it leading to the
         # clause becoming false are implied by it
