@@ -60,16 +60,16 @@ class Solver:
         """
         while True:
             trail_length_before = len(self.__trail_literals)
-            backtracked = False
+            backjumped = False
 
             for literal in self.__trail_literals:
-                unsat, backtracked = self.__handle_falsified_literals(literal)
+                unsat, backjumped = self.__handle_falsified_literals(literal)
                 if unsat:
                     return False
-                if backtracked:
+                if backjumped:
                     break
 
-            if not backtracked and len(self.__trail_literals) == trail_length_before:
+            if not backjumped and len(self.__trail_literals) == trail_length_before:
                 # no more literals will be added by unit propagation
                 return True
 
@@ -84,9 +84,8 @@ class Solver:
             trail_literal: An item from self.__trail_literals.
 
         Returns:
-            A tuple (unsat, backtracked), where unsat indicates that the formula was found
-            unsatisfiable, and backtracked indicates that backjumping or backtracking was
-            performed.
+            A tuple (unsat, backjumped), where unsat indicates that the formula was found
+            unsatisfiable, and backjumped indicates that backjumping was performed.
         """
         for clause in self.__watched_in[-trail_literal]:
             # Try to find a replacement for the falsified watched literal.
@@ -121,17 +120,17 @@ class Solver:
                     self.__trail_reason.append(clause)
             else:
                 # false clause
-                if not self.__add_learned_clause_and_backtrack(clause):
+                if not self.__add_learned_clause_and_backjump(clause):
                     # unsatisfiable
                     return (True, False)
-                # backtracked
+                # backjumped
                 return (False, True)
 
         return (False, False)
 
 
-    def __add_learned_clause_and_backtrack(self, falsified_clause):
-        """Adds a learned clause to the formula and then backjumps or backtracks.
+    def __add_learned_clause_and_backjump(self, falsified_clause):
+        """Adds a learned clause to the formula and then backjumps.
 
         Args:
             falsified_clause: A clause falsified by the current partial truth assignment.
@@ -155,25 +154,31 @@ class Solver:
             for i in range(min(2, len(learned_clause))):
                 self.__watched_in[learned_clause[i]].append(learned_clause)
 
+        # find first decision literal
+        first_decision_literal_index = 0
+        while self.__trail_reason[first_decision_literal_index]:
+            first_decision_literal_index += 1
+
         if len(learned_clause) == 1:
             # backjump to before the first decision literal
-            for i, reason in enumerate(self.__trail_reason):  # pragma: no cover
-                # self.__trail_reason is never empty here
-                if not reason:
-                    self.__trail_literals = self.__trail_literals[:i]
-                    self.__trail_reason = self.__trail_reason[:i]
-                    break
+            self.__trail_literals = self.__trail_literals[:first_decision_literal_index]
+            self.__trail_reason = self.__trail_reason[:first_decision_literal_index]
             # the literal needs to be added to trail here since it won't be added by unit
             # propagation
             self.__trail_literals.append(learned_clause[0])
             self.__trail_reason.append(learned_clause)
         else:
-            # backtrack to before last decision
-            while self.__trail_reason[-1]:
-                self.__trail_literals.pop()
-                self.__trail_reason.pop()
-            self.__trail_literals.pop()
-            self.__trail_reason.pop()
+            # backjump to the second highest decision level of the literals in the learned clause
+            index = len(self.__trail_literals) - 1
+            while self.__trail_reason[index]:
+                index -= 1
+            for i in range(index-1, first_decision_literal_index-1, -1):
+                if self.__trail_literals[i] in learned_clause:
+                    break
+                if not self.__trail_reason[i]:
+                    index = i
+            self.__trail_literals = self.__trail_literals[:index]
+            self.__trail_reason = self.__trail_reason[:index]
 
         return True
 
