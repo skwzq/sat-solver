@@ -23,4 +23,4 @@ Algoritmit ja tekoäly -harjoitustyökurssin harjoitustyö
 
 [Viikkoraportti 6](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Viikkoraportti%206.md)
 
-[Viikkoraportti 7](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Viikkoraportti%207.md)
+[Viikkoraportti 7 - 8](https://github.com/skwzq/sat-solver/blob/main/dokumentaatio/Viikkoraportti%207%20-%208.md)
